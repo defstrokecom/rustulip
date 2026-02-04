@@ -25,7 +25,7 @@ export function HeroSection({ banner }: { banner: HeroBanner | null }) {
   const data = banner || defaultBanner
 
   return (
-    <section className="relative min-h-[90vh] flex items-center overflow-hidden bg-[#6B5B4F]">
+    <section className="relative min-h-[90vh] flex items-center overflow-hidden bg-[#6F5D50]">
       {/* Background Pattern */}
       <div className="absolute inset-0 pattern-overlay" />
       

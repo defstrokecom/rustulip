@@ -34,7 +34,7 @@ export function AdvantagesSection({ advantages }: { advantages: Advantage[] }) {
   }
 
   return (
-    <section className="py-20 bg-[#5C4D42]">
+    <section className="py-20 bg-[#5A4A3F]">
       <div className="container mx-auto px-4">
         <motion.div
           initial={{ opacity: 0, y: 20 }}
@@ -60,7 +60,7 @@ export function AdvantagesSection({ advantages }: { advantages: Advantage[] }) {
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
                 transition={{ delay: index * 0.1 }}
-                className="group relative p-6 rounded-xl bg-[#6B5B4F]/50 border border-[#C9A227]/20 hover:border-[#C9A227]/50 transition-all duration-300"
+                className="group relative p-6 rounded-xl bg-[#6F5D50]/50 border border-[#C9A227]/20 hover:border-[#C9A227]/50 transition-all duration-300"
               >
                 {/* Gradient glow on hover */}
                 <div className="absolute inset-0 rounded-xl bg-gradient-to-br from-[#C9A227]/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity" />

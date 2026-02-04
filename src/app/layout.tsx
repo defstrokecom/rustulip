@@ -34,7 +34,7 @@ export default function RootLayout({
   return (
     <html lang="ru">
       <body
-        className={`${playfair.variable} ${openSans.variable} font-body antialiased bg-[#6B5B4F] text-white`}
+        className={`${playfair.variable} ${openSans.variable} font-body antialiased bg-[#6F5D50] text-white`}
       >
         {children}
       </body>

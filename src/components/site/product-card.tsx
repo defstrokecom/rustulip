@@ -81,10 +81,10 @@ export function ProductCard({ product }: { product: Product }) {
     <Link href={`/catalog/${product.slug}`}>
       <motion.div
         whileHover={{ y: -4 }}
-        className="group relative rounded-xl bg-[#5C4D42] border border-[#C9A227]/20 overflow-hidden hover:border-[#C9A227]/50 transition-all duration-300 shadow-lg hover:shadow-xl"
+        className="group relative rounded-xl bg-[#5A4A3F] border border-[#C9A227]/20 overflow-hidden hover:border-[#C9A227]/50 transition-all duration-300 shadow-lg hover:shadow-xl"
       >
         {/* Image */}
-        <div className="relative aspect-square bg-[#6B5B4F] overflow-hidden">
+        <div className="relative aspect-square bg-[#6F5D50] overflow-hidden">
           {showPlaceholder ? (
             <div className={`w-full h-full bg-gradient-to-br ${gradientStyle.bg} flex items-center justify-center transition-transform duration-500 group-hover:scale-110`}>
               <span className="text-7xl opacity-90 drop-shadow-lg">{gradientStyle.icon}</span>

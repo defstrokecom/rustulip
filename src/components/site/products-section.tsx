@@ -38,7 +38,7 @@ export function ProductsSection({
   viewAllLink = "/catalog",
 }: ProductsSectionProps) {
   return (
-    <section className="py-20 bg-[#6B5B4F]">
+    <section className="py-20 bg-[#6F5D50]">
       <div className="container mx-auto px-4">
         <motion.div
           initial={{ opacity: 0, y: 20 }}

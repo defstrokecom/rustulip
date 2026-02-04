@@ -3,7 +3,7 @@ import { Phone, Mail, MapPin, Send, MessageCircle } from "lucide-react"
 
 export function Footer() {
   return (
-    <footer className="bg-[#5C4D42] border-t border-[#C9A227]/20">
+    <footer className="bg-[#5A4A3F] border-t border-[#C9A227]/20">
       <div className="container mx-auto px-4 py-12">
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
           {/* Logo & Description */}
@@ -28,7 +28,7 @@ export function Footer() {
                 href="https://t.me/rustulip"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="w-10 h-10 rounded-lg bg-[#6B5B4F] hover:bg-[#C9A227] flex items-center justify-center text-[#E8E0D4] hover:text-[#3D3229] transition-all"
+                className="w-10 h-10 rounded-lg bg-[#6F5D50] hover:bg-[#C9A227] flex items-center justify-center text-[#E8E0D4] hover:text-[#3D3229] transition-all"
               >
                 <Send className="w-5 h-5" />
               </a>
@@ -36,7 +36,7 @@ export function Footer() {
                 href="https://wa.me/79609022444"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="w-10 h-10 rounded-lg bg-[#6B5B4F] hover:bg-[#C9A227] flex items-center justify-center text-[#E8E0D4] hover:text-[#3D3229] transition-all"
+                className="w-10 h-10 rounded-lg bg-[#6F5D50] hover:bg-[#C9A227] flex items-center justify-center text-[#E8E0D4] hover:text-[#3D3229] transition-all"
               >
                 <MessageCircle className="w-5 h-5" />
               </a>
