@@ -74,17 +74,20 @@ nano .env
 
 ```env
 # База данных (SQLite)
-DATABASE_URL="file:./dev.db"
+DATABASE_URL="file:./rustulip.db"
 
-# NextAuth.js
-NEXTAUTH_URL="https://yourdomain.com"
+# NextAuth.js (замените YOUR_SERVER_IP на IP вашего сервера)
+NEXTAUTH_URL="http://YOUR_SERVER_IP:3005"
 NEXTAUTH_SECRET="your-super-secret-key-change-this"
 
 # Для production генерируем случайный ключ:
 # openssl rand -base64 32
 
 # URL приложения (для ссылок в email)
-NEXT_PUBLIC_APP_URL="https://yourdomain.com"
+NEXT_PUBLIC_APP_URL="http://YOUR_SERVER_IP:3005"
+
+# Порт приложения
+PORT=3005
 ```
 
 Сохраните: `Ctrl+O`, `Enter`, затем `Ctrl+X`
@@ -136,7 +139,7 @@ npm run build
 
 ```bash
 npm run start
-# Приложение будет доступно на http://localhost:3000
+# Приложение будет доступно на http://YOUR_SERVER_IP:3005
 ```
 
 ### Production запуск с PM2
@@ -145,8 +148,8 @@ npm run start
 # Установка PM2 глобально
 sudo npm install -g pm2
 
-# Запуск приложения
-pm2 start npm --name "rustulip" -- start
+# Запуск приложения на порту 3005
+pm2 start npm --name "rustulip" -- start -- -p 3005
 
 # Автозапуск при перезагрузке сервера
 pm2 startup
@@ -243,9 +246,11 @@ sudo certbot renew --dry-run
 ## 10. Настройка Firewall
 
 ```bash
-# Разрешить SSH, HTTP, HTTPS
+# Разрешить SSH
 sudo ufw allow OpenSSH
-sudo ufw allow 'Nginx Full'
+
+# Разрешить порт 3005 для приложения
+sudo ufw allow 3005
 
 # Включить firewall
 sudo ufw enable
@@ -282,12 +287,11 @@ pm2 restart rustulip
 
 ## 📋 Чеклист после развёртывания
 
-- [ ] Сайт открывается по адресу https://yourdomain.com
-- [ ] Админ-панель доступна: https://yourdomain.com/admin/login
+- [ ] Сайт открывается по адресу http://YOUR_SERVER_IP:3005
+- [ ] Админ-панель доступна: http://YOUR_SERVER_IP:3005/admin/login
 - [ ] Вход по `admin@rustulip.ru` / `admin123` работает
 - [ ] **Смените пароль администратора!** (Настройки → Изменить пароль)
 - [ ] Настройте email рассылку (Рассылка → Email рассылка)
-- [ ] SSL сертификат активен (замочек в браузере)
 
 ---
 
@@ -299,15 +303,15 @@ pm2 restart rustulip
 # Проверка логов
 pm2 logs rustulip --lines 50
 
-# Проверка порта
-sudo lsof -i :3000
+# Проверка порта 3005
+sudo lsof -i :3005
 ```
 
 ### Ошибка базы данных
 
 ```bash
 # Пересоздание базы
-rm prisma/dev.db
+rm prisma/rustulip.db
 npx prisma db push
 npm run db:seed
 ```
@@ -359,7 +363,8 @@ sudo tail -f /var/log/nginx/error.log
 ### Бэкап базы данных
 
 ```bash
-cp ~/rustulip/prisma/dev.db ~/backups/rustulip-$(date +%Y%m%d).db
+mkdir -p ~/backups
+cp ~/rustulip/prisma/rustulip.db ~/backups/rustulip-$(date +%Y%m%d).db
 ```
 
 ### Автоматический бэкап (cron)
@@ -368,7 +373,7 @@ cp ~/rustulip/prisma/dev.db ~/backups/rustulip-$(date +%Y%m%d).db
 crontab -e
 
 # Добавить строку (бэкап каждый день в 3:00)
-0 3 * * * cp ~/rustulip/prisma/dev.db ~/backups/rustulip-$(date +\%Y\%m\%d).db
+0 3 * * * cp ~/rustulip/prisma/rustulip.db ~/backups/rustulip-$(date +\%Y\%m\%d).db
 ```
 
 ---
