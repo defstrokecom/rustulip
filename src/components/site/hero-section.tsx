@@ -31,8 +31,6 @@ export function HeroSection({ banner }: { banner: HeroBanner | null }) {
       <div className="absolute inset-0 pattern-overlay" />
       
 
-      {/* Gold line decoration - bottom only */}
-      <div className="absolute bottom-20 left-0 right-0 h-px bg-gradient-to-r from-transparent via-[#C9A227]/30 to-transparent" />
 
       <div className="container mx-auto px-4 relative z-10">
         <div className="max-w-3xl mx-auto text-center">
@@ -129,7 +127,7 @@ export function HeroSection({ banner }: { banner: HeroBanner | null }) {
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.5, delay: 0.6 }}
-            className="flex flex-wrap justify-center gap-8 md:gap-12 mt-12 py-8"
+            className="flex flex-wrap justify-center gap-8 md:gap-12 mt-12 py-8 border-t border-[#C9A227]/20"
           >
             <div className="text-center">
               <p className="text-3xl md:text-4xl font-heading font-bold text-[#C9A227]">10 000+</p>
