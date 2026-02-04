@@ -29,31 +29,6 @@ export function HeroSection({ banner }: { banner: HeroBanner | null }) {
       {/* Background Pattern */}
       <div className="absolute inset-0 pattern-overlay" />
       
-      {/* Decorative tulips - left */}
-      <div className="absolute left-0 bottom-0 top-0 w-1/4 pointer-events-none hidden lg:block">
-        <div className="absolute bottom-0 left-0 w-full h-[80%] bg-gradient-to-t from-[#C9A227]/10 to-transparent" />
-        <motion.div
-          initial={{ opacity: 0, x: -50 }}
-          animate={{ opacity: 1, x: 0 }}
-          transition={{ duration: 1, delay: 0.5 }}
-          className="absolute bottom-0 left-4 text-[200px] leading-none select-none opacity-20"
-        >
-          🌷
-        </motion.div>
-      </div>
-
-      {/* Decorative tulips - right */}
-      <div className="absolute right-0 bottom-0 top-0 w-1/4 pointer-events-none hidden lg:block">
-        <div className="absolute bottom-0 right-0 w-full h-[80%] bg-gradient-to-t from-[#C9A227]/10 to-transparent" />
-        <motion.div
-          initial={{ opacity: 0, x: 50 }}
-          animate={{ opacity: 1, x: 0 }}
-          transition={{ duration: 1, delay: 0.5 }}
-          className="absolute bottom-0 right-4 text-[200px] leading-none select-none opacity-20 scale-x-[-1]"
-        >
-          🌷
-        </motion.div>
-      </div>
 
       {/* Gold line decorations */}
       <div className="absolute top-20 left-0 right-0 h-px bg-gradient-to-r from-transparent via-[#C9A227]/30 to-transparent" />
