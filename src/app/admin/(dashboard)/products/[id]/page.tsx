@@ -82,6 +82,7 @@ export default function EditProductPage() {
     images: [],
   })
   const [newImageUrl, setNewImageUrl] = useState("")
+  const [uploading, setUploading] = useState(false)
 
   useEffect(() => {
     fetchCategories()
@@ -182,6 +183,51 @@ export default function EditProductPage() {
       }))
       setNewImageUrl("")
     }
+  }
+
+  const handleFileUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
+    const files = e.target.files
+    if (!files || files.length === 0) return
+
+    setUploading(true)
+    
+    for (const file of Array.from(files)) {
+      try {
+        const formData = new FormData()
+        formData.append("file", file)
+        
+        const res = await fetch("/api/upload", {
+          method: "POST",
+          body: formData,
+        })
+        
+        if (res.ok) {
+          const data = await res.json()
+          setForm((prev) => ({
+            ...prev,
+            images: [...prev.images, data.url],
+          }))
+        } else {
+          const error = await res.json()
+          toast({
+            title: "Ошибка загрузки",
+            description: error.error || "Не удалось загрузить файл",
+            variant: "destructive",
+          })
+        }
+      } catch (error) {
+        console.error("Upload error:", error)
+        toast({
+          title: "Ошибка",
+          description: "Не удалось загрузить файл",
+          variant: "destructive",
+        })
+      }
+    }
+    
+    setUploading(false)
+    // Reset input
+    e.target.value = ""
   }
 
   const removeImage = (index: number) => {
@@ -410,11 +456,39 @@ export default function EditProductPage() {
                 <CardTitle>Изображения</CardTitle>
               </CardHeader>
               <CardContent className="space-y-4">
+                {/* File upload */}
+                <div className="border-2 border-dashed border-zinc-700 hover:border-zinc-500 rounded-lg p-6 text-center transition-colors">
+                  <input
+                    type="file"
+                    id="file-upload"
+                    multiple
+                    accept="image/jpeg,image/jpg,image/png,image/webp,image/gif"
+                    onChange={handleFileUpload}
+                    className="hidden"
+                    disabled={uploading}
+                  />
+                  <label htmlFor="file-upload" className="cursor-pointer block">
+                    {uploading ? (
+                      <>
+                        <Loader2 className="w-10 h-10 mx-auto text-zinc-500 mb-3 animate-spin" />
+                        <p className="text-zinc-400">Загрузка...</p>
+                      </>
+                    ) : (
+                      <>
+                        <Upload className="w-10 h-10 mx-auto text-zinc-500 mb-3" />
+                        <p className="text-zinc-300 font-medium mb-1">Нажмите для загрузки</p>
+                        <p className="text-sm text-zinc-500">JPG, PNG, WebP, GIF до 5MB</p>
+                      </>
+                    )}
+                  </label>
+                </div>
+
+                {/* URL input */}
                 <div className="flex gap-2">
                   <Input
                     value={newImageUrl}
                     onChange={(e) => setNewImageUrl(e.target.value)}
-                    placeholder="https://example.com/image.jpg"
+                    placeholder="Или вставьте URL: https://example.com/image.jpg"
                     onKeyDown={(e) => {
                       if (e.key === "Enter") {
                         e.preventDefault()
@@ -446,12 +520,12 @@ export default function EditProductPage() {
                         <button
                           type="button"
                           onClick={() => removeImage(index)}
-                          className="absolute top-2 right-2 p-1 rounded-full bg-red-500 text-white opacity-0 group-hover:opacity-100 transition-opacity"
+                          className="absolute top-2 right-2 p-1.5 rounded-full bg-red-500 text-white opacity-0 group-hover:opacity-100 transition-opacity"
                         >
                           <X className="w-4 h-4" />
                         </button>
                         {index === 0 && (
-                          <span className="absolute bottom-2 left-2 px-2 py-0.5 text-xs bg-pink-500 text-white rounded">
+                          <span className="absolute bottom-2 left-2 px-2 py-0.5 text-xs bg-[#C9A227] text-[#3D3229] font-medium rounded">
                             Главное
                           </span>
                         )}
@@ -459,12 +533,9 @@ export default function EditProductPage() {
                     ))}
                   </div>
                 ) : (
-                  <div className="border-2 border-dashed border-zinc-700 rounded-lg p-8 text-center">
-                    <ImageIcon className="w-12 h-12 mx-auto text-zinc-600 mb-4" />
-                    <p className="text-zinc-400 mb-2">Нет изображений</p>
-                    <p className="text-sm text-zinc-500">
-                      Добавьте URL изображений выше
-                    </p>
+                  <div className="text-center text-zinc-500 py-4">
+                    <ImageIcon className="w-8 h-8 mx-auto mb-2 opacity-50" />
+                    <p className="text-sm">Нет загруженных изображений</p>
                   </div>
                 )}
               </CardContent>

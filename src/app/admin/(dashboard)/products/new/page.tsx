@@ -6,7 +6,7 @@ import { useForm } from "react-hook-form"
 import { zodResolver } from "@hookform/resolvers/zod"
 import { z } from "zod"
 import { motion } from "framer-motion"
-import { ArrowLeft, Loader2, Plus, X, Upload } from "lucide-react"
+import { ArrowLeft, Loader2, Plus, X, Upload, ImageIcon } from "lucide-react"
 import Link from "next/link"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
@@ -48,6 +48,8 @@ export default function NewProductPage() {
   const [categories, setCategories] = useState<Category[]>([])
   const [images, setImages] = useState<string[]>([])
   const [isSubmitting, setIsSubmitting] = useState(false)
+  const [uploading, setUploading] = useState(false)
+  const [newImageUrl, setNewImageUrl] = useState("")
 
   const {
     register,
@@ -121,10 +123,51 @@ export default function NewProductPage() {
     }
   }
 
+  const handleFileUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
+    const files = e.target.files
+    if (!files || files.length === 0) return
+
+    setUploading(true)
+    
+    for (const file of Array.from(files)) {
+      try {
+        const formData = new FormData()
+        formData.append("file", file)
+        
+        const res = await fetch("/api/upload", {
+          method: "POST",
+          body: formData,
+        })
+        
+        if (res.ok) {
+          const data = await res.json()
+          setImages((prev) => [...prev, data.url])
+        } else {
+          const error = await res.json()
+          toast({
+            title: "Ошибка загрузки",
+            description: error.error || "Не удалось загрузить файл",
+            variant: "destructive",
+          })
+        }
+      } catch (error) {
+        console.error("Upload error:", error)
+        toast({
+          title: "Ошибка",
+          description: "Не удалось загрузить файл",
+          variant: "destructive",
+        })
+      }
+    }
+    
+    setUploading(false)
+    e.target.value = ""
+  }
+
   const addImageUrl = () => {
-    const url = prompt("Введите URL изображения:")
-    if (url) {
-      setImages([...images, url])
+    if (newImageUrl.trim()) {
+      setImages([...images, newImageUrl.trim()])
+      setNewImageUrl("")
     }
   }
 
@@ -296,36 +339,89 @@ export default function NewProductPage() {
                 <CardHeader>
                   <CardTitle>Изображения</CardTitle>
                 </CardHeader>
-                <CardContent>
-                  <div className="grid grid-cols-3 gap-4">
-                    {images.map((url, index) => (
-                      <div
-                        key={index}
-                        className="relative aspect-square rounded-xl overflow-hidden bg-zinc-800 group"
-                      >
-                        <img
-                          src={url}
-                          alt={`Image ${index + 1}`}
-                          className="w-full h-full object-cover"
-                        />
-                        <button
-                          type="button"
-                          onClick={() => removeImage(index)}
-                          className="absolute top-2 right-2 p-1 rounded-full bg-red-500 text-white opacity-0 group-hover:opacity-100 transition-opacity"
-                        >
-                          <X className="w-4 h-4" />
-                        </button>
-                      </div>
-                    ))}
-                    <button
-                      type="button"
-                      onClick={addImageUrl}
-                      className="aspect-square rounded-xl border-2 border-dashed border-zinc-700 hover:border-pink-500 flex flex-col items-center justify-center gap-2 text-zinc-400 hover:text-pink-400 transition-colors"
-                    >
-                      <Upload className="w-8 h-8" />
-                      <span className="text-sm">Добавить</span>
-                    </button>
+                <CardContent className="space-y-4">
+                  {/* File upload */}
+                  <div className="border-2 border-dashed border-zinc-700 hover:border-zinc-500 rounded-lg p-6 text-center transition-colors">
+                    <input
+                      type="file"
+                      id="file-upload"
+                      multiple
+                      accept="image/jpeg,image/jpg,image/png,image/webp,image/gif"
+                      onChange={handleFileUpload}
+                      className="hidden"
+                      disabled={uploading}
+                    />
+                    <label htmlFor="file-upload" className="cursor-pointer block">
+                      {uploading ? (
+                        <>
+                          <Loader2 className="w-10 h-10 mx-auto text-zinc-500 mb-3 animate-spin" />
+                          <p className="text-zinc-400">Загрузка...</p>
+                        </>
+                      ) : (
+                        <>
+                          <Upload className="w-10 h-10 mx-auto text-zinc-500 mb-3" />
+                          <p className="text-zinc-300 font-medium mb-1">Нажмите для загрузки</p>
+                          <p className="text-sm text-zinc-500">JPG, PNG, WebP, GIF до 5MB</p>
+                        </>
+                      )}
+                    </label>
                   </div>
+
+                  {/* URL input */}
+                  <div className="flex gap-2">
+                    <Input
+                      value={newImageUrl}
+                      onChange={(e) => setNewImageUrl(e.target.value)}
+                      placeholder="Или вставьте URL: https://example.com/image.jpg"
+                      onKeyDown={(e) => {
+                        if (e.key === "Enter") {
+                          e.preventDefault()
+                          addImageUrl()
+                        }
+                      }}
+                    />
+                    <Button type="button" variant="outline" onClick={addImageUrl}>
+                      <Plus className="w-4 h-4" />
+                    </Button>
+                  </div>
+
+                  {/* Image grid */}
+                  {images.length > 0 ? (
+                    <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-4">
+                      {images.map((url, index) => (
+                        <div
+                          key={index}
+                          className="relative aspect-square rounded-lg bg-zinc-800 overflow-hidden group"
+                        >
+                          <img
+                            src={url}
+                            alt={`Image ${index + 1}`}
+                            className="w-full h-full object-cover"
+                            onError={(e) => {
+                              (e.target as HTMLImageElement).style.display = "none"
+                            }}
+                          />
+                          <button
+                            type="button"
+                            onClick={() => removeImage(index)}
+                            className="absolute top-2 right-2 p-1.5 rounded-full bg-red-500 text-white opacity-0 group-hover:opacity-100 transition-opacity"
+                          >
+                            <X className="w-4 h-4" />
+                          </button>
+                          {index === 0 && (
+                            <span className="absolute bottom-2 left-2 px-2 py-0.5 text-xs bg-[#C9A227] text-[#3D3229] font-medium rounded">
+                              Главное
+                            </span>
+                          )}
+                        </div>
+                      ))}
+                    </div>
+                  ) : (
+                    <div className="text-center text-zinc-500 py-4">
+                      <ImageIcon className="w-8 h-8 mx-auto mb-2 opacity-50" />
+                      <p className="text-sm">Нет загруженных изображений</p>
+                    </div>
+                  )}
                 </CardContent>
               </Card>
             </motion.div>
