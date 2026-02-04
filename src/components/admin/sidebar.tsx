@@ -52,6 +52,7 @@ const menuItems = [
       { title: "Баннеры", href: "/admin/content/banners" },
       { title: "Преимущества", href: "/admin/content/advantages" },
       { title: "Страницы", href: "/admin/content/pages" },
+      { title: "О компании", href: "/admin/content/about" },
     ],
   },
   {

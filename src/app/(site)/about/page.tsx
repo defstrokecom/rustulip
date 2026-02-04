@@ -1,4 +1,5 @@
 import { prisma } from "@/lib/prisma"
+import Image from "next/image"
 import { 
   Leaf, 
   Truck, 
@@ -8,18 +9,48 @@ import {
   Calendar,
 } from "lucide-react"
 
-async function getAboutData() {
-  const settings = await prisma.siteSettings.findMany()
-  const settingsMap = settings.reduce((acc: Record<string, string>, s: { key: string; value: string }) => {
-    acc[s.key] = s.value
-    return acc
-  }, {} as Record<string, string>)
+interface AboutContent {
+  heroTitle: string
+  heroSubtitle: string
+  storyTitle: string
+  storyText1: string
+  storyText2: string
+  storyText3: string
+  storyImage: string
+  storyImageTitle: string
+  storyImageSubtitle: string
+}
+
+const defaultContent: AboutContent = {
+  heroTitle: "О компании РусТюльпан",
+  heroSubtitle: "Мы — команда энтузиастов, которые верят, что свежие цветы могут сделать любой день особенным. Предлагаем тюльпаны, выращенные из отборных голландских луковиц.",
+  storyTitle: "Наша история",
+  storyText1: "Всё началось с простой идеи — сделать покупку свежих цветов простой и доступной. Мы начали работать напрямую с плантациями в Голландии, Эквадоре и России.",
+  storyText2: "Сегодня РусТюльпан — это современная компания с собственным складом, холодильными камерами для хранения цветов и командой профессионалов.",
+  storyText3: "Мы специализируемся на оптовых и розничных поставках тюльпанов и мимозы — самых востребованных цветов весеннего сезона. Наши клиенты — это цветочные магазины, event-агентства и частные покупатели.",
+  storyImage: "",
+  storyImageTitle: "Голландские луковицы",
+  storyImageSubtitle: "премиум качество",
+}
+
+async function getAboutContent(): Promise<AboutContent> {
+  try {
+    const setting = await prisma.siteSettings.findUnique({
+      where: { key: "about_page_content" },
+    })
+
+    if (setting) {
+      return JSON.parse(setting.value)
+    }
+  } catch (error) {
+    console.error("Failed to fetch about content:", error)
+  }
   
-  return settingsMap
+  return defaultContent
 }
 
 export default async function AboutPage() {
-  const settings = await getAboutData()
+  const content = await getAboutContent()
 
   const stats = [
     { icon: Users, value: "10 000+", label: "Довольных клиентов" },
@@ -60,14 +91,18 @@ export default async function AboutPage() {
         <div className="container mx-auto px-4 relative z-10">
           <div className="max-w-3xl mx-auto text-center">
             <h1 className="font-heading text-4xl md:text-5xl lg:text-6xl font-bold text-white mb-6">
-              О компании{" "}
-              <span className="text-[#C9A227]">
-                РусТюльпан
-              </span>
+              {content.heroTitle.includes("РусТюльпан") ? (
+                <>
+                  {content.heroTitle.split("РусТюльпан")[0]}
+                  <span className="text-[#C9A227]">РусТюльпан</span>
+                  {content.heroTitle.split("РусТюльпан")[1]}
+                </>
+              ) : (
+                content.heroTitle
+              )}
             </h1>
             <p className="text-lg md:text-xl text-[#E8E0D4]/80">
-              Мы — команда энтузиастов, которые верят, что свежие цветы могут сделать любой день особенным. 
-              Предлагаем тюльпаны, выращенные из отборных голландских луковиц.
+              {content.heroSubtitle}
             </p>
           </div>
         </div>
@@ -96,31 +131,36 @@ export default async function AboutPage() {
           <div className="grid md:grid-cols-2 gap-12 items-center">
             <div>
               <h2 className="font-heading text-3xl md:text-4xl font-bold text-[#C9A227] mb-6">
-                Наша история
+                {content.storyTitle}
               </h2>
               <div className="space-y-4 text-[#E8E0D4]/80">
-                <p>
-                  Всё началось с простой идеи — сделать покупку свежих цветов простой и доступной. 
-                  Мы начали работать напрямую с плантациями в Голландии, Эквадоре и России.
-                </p>
-                <p>
-                  Сегодня РусТюльпан — это современная компания с собственным складом, 
-                  холодильными камерами для хранения цветов и командой профессионалов.
-                </p>
-                <p>
-                  Мы специализируемся на оптовых и розничных поставках тюльпанов и мимозы — 
-                  самых востребованных цветов весеннего сезона. Наши клиенты — это цветочные 
-                  магазины, event-агентства и частные покупатели.
-                </p>
+                {content.storyText1 && <p>{content.storyText1}</p>}
+                {content.storyText2 && <p>{content.storyText2}</p>}
+                {content.storyText3 && <p>{content.storyText3}</p>}
               </div>
             </div>
             <div className="relative">
-              <div className="aspect-square rounded-2xl bg-[#5A4A3F] border border-[#C9A227]/20 flex items-center justify-center">
-                <div className="text-center p-8">
-                  <span className="text-8xl mb-4 block">🌷</span>
-                  <p className="text-2xl font-heading font-bold text-[#C9A227]">Голландские луковицы</p>
-                  <p className="text-[#E8E0D4]/70">премиум качество</p>
-                </div>
+              <div className="aspect-square rounded-2xl bg-[#5A4A3F] border border-[#C9A227]/20 flex items-center justify-center overflow-hidden">
+                {content.storyImage ? (
+                  <div className="relative w-full h-full">
+                    <img
+                      src={content.storyImage}
+                      alt={content.storyImageTitle}
+                      className="w-full h-full object-cover"
+                    />
+                    <div className="absolute inset-0 bg-gradient-to-t from-[#3D3229]/80 to-transparent" />
+                    <div className="absolute bottom-0 left-0 right-0 text-center p-6">
+                      <p className="text-2xl font-heading font-bold text-[#C9A227]">{content.storyImageTitle}</p>
+                      <p className="text-[#E8E0D4]/70">{content.storyImageSubtitle}</p>
+                    </div>
+                  </div>
+                ) : (
+                  <div className="text-center p-8">
+                    <span className="text-8xl mb-4 block">🌷</span>
+                    <p className="text-2xl font-heading font-bold text-[#C9A227]">{content.storyImageTitle}</p>
+                    <p className="text-[#E8E0D4]/70">{content.storyImageSubtitle}</p>
+                  </div>
+                )}
               </div>
             </div>
           </div>
