@@ -39,7 +39,7 @@ export function HeroSection({ banner }: { banner: HeroBanner | null }) {
             initial={{ opacity: 0, y: -20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.5 }}
-            className="mb-6 flex justify-center"
+            className="mt-8 mb-4 flex justify-center"
           >
             <Image 
               src="/logo.png" 
