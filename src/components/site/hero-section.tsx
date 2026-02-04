@@ -44,14 +44,14 @@ export function HeroSection({ banner }: { banner: HeroBanner | null }) {
             transition={{ duration: 0.5 }}
             className="flex flex-col items-center mb-8"
           >
+            <span className="font-heading text-[#C9A227] text-2xl tracking-wide mb-4">&quot;РусТюльпан&quot;</span>
             <Image 
               src="/logo.png" 
               alt="РусТюльпан" 
-              width={60} 
-              height={95}
-              className="object-contain mb-4"
+              width={70} 
+              height={110}
+              className="object-contain brightness-125 contrast-110 drop-shadow-[0_0_8px_rgba(201,162,39,0.5)]"
             />
-            <span className="font-heading text-[#C9A227] text-2xl tracking-wide">&quot;РусТюльпан&quot;</span>
           </motion.div>
 
           <motion.h1
