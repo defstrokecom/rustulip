@@ -36,25 +36,19 @@ export function HeroSection({ banner }: { banner: HeroBanner | null }) {
 
       <div className="container mx-auto px-4 relative z-10">
         <div className="max-w-3xl mx-auto text-center">
-          {/* Logo/Brand */}
+          {/* Logo */}
           <motion.div
             initial={{ opacity: 0, y: -20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.5 }}
-            className="flex flex-col items-center"
+            className="mb-6"
           >
-            <span className="font-heading text-[#C9A227] text-2xl tracking-wide mb-4">РусТюльпан</span>
-            
-            {/* Gold line between text and logo */}
-            <div className="w-64 h-px bg-gradient-to-r from-transparent via-[#C9A227]/50 to-transparent mb-2" />
-            
-            {/* Logo crosses the line */}
             <Image 
               src="/logo.png" 
               alt="РусТюльпан" 
               width={70} 
               height={110}
-              className="object-contain brightness-125 contrast-110 drop-shadow-[0_0_8px_rgba(201,162,39,0.5)] -mt-4"
+              className="object-contain brightness-125 contrast-110 drop-shadow-[0_0_8px_rgba(201,162,39,0.5)]"
             />
           </motion.div>
 
