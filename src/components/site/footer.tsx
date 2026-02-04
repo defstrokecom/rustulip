@@ -1,4 +1,5 @@
 import Link from "next/link"
+import Image from "next/image"
 import { Phone, Mail, MapPin, Send, MessageCircle } from "lucide-react"
 
 export function Footer() {
@@ -9,16 +10,13 @@ export function Footer() {
           {/* Logo & Description */}
           <div className="space-y-4">
             <Link href="/" className="flex items-center gap-3">
-              {/* Tulip Icon */}
-              <div className="text-[#C9A227]">
-                <svg width="24" height="38" viewBox="0 0 28 44" fill="none" xmlns="http://www.w3.org/2000/svg">
-                  <path d="M14 2C14 2 6 10 6 18C6 22 9.5 25 14 25C18.5 25 22 22 22 18C22 10 14 2 14 2Z" stroke="currentColor" strokeWidth="1.5" fill="none"/>
-                  <path d="M14 4C14 4 10 10 10 16C10 19 11.5 21 14 21C16.5 21 18 19 18 16C18 10 14 4 14 4Z" stroke="currentColor" strokeWidth="1.5" fill="none"/>
-                  <path d="M14 25V40" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round"/>
-                  <path d="M14 32C14 32 8 34 6 38C8 36 12 35 14 35" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" fill="none"/>
-                  <path d="M14 32C14 32 20 34 22 38C20 36 16 35 14 35" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" fill="none"/>
-                </svg>
-              </div>
+              <Image 
+                src="/logo.png" 
+                alt="РусТюльпан" 
+                width={28} 
+                height={44}
+                className="object-contain"
+              />
               <span className="font-heading text-[#C9A227] text-xl">
                 &quot;РусТюльпан&quot;
               </span>
