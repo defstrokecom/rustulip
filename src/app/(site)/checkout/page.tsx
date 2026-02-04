@@ -65,6 +65,22 @@ export default function CheckoutPage() {
 
       if (res.ok) {
         const order = await res.json()
+        
+        // Сохраняем данные заказа для Telegram ссылки
+        const orderData = {
+          orderNumber: order.orderNumber,
+          customerName: data.customerName,
+          phone: data.phone,
+          items: items.map(item => ({
+            name: item.name,
+            quantity: item.quantity,
+            price: item.price,
+          })),
+          total: getTotal(),
+          comment: data.comment || "",
+        }
+        sessionStorage.setItem("lastOrder", JSON.stringify(orderData))
+        
         clearCart()
         router.push(`/checkout/success?order=${order.orderNumber}`)
       } else {
@@ -90,13 +106,13 @@ export default function CheckoutPage() {
             animate={{ opacity: 1, y: 0 }}
             className="max-w-md mx-auto"
           >
-            <div className="w-20 h-20 rounded-full bg-zinc-800 flex items-center justify-center mx-auto mb-6">
-              <ShoppingBag className="w-10 h-10 text-zinc-500" />
+            <div className="w-20 h-20 rounded-full bg-[#5A4A3F] flex items-center justify-center mx-auto mb-6">
+              <ShoppingBag className="w-10 h-10 text-[#C9A227]" />
             </div>
             <h1 className="font-heading text-2xl font-bold text-white mb-2">
               Корзина пуста
             </h1>
-            <p className="text-zinc-400 mb-6">
+            <p className="text-[#E8E0D4]/70 mb-6">
               Добавьте товары из каталога, чтобы оформить заказ
             </p>
             <Button asChild>
@@ -121,7 +137,7 @@ export default function CheckoutPage() {
               <ArrowLeft className="w-5 h-5" />
             </Link>
           </Button>
-          <h1 className="font-heading text-3xl font-bold text-white">
+          <h1 className="font-heading text-3xl font-bold text-[#C9A227]">
             Оформление заказа
           </h1>
         </motion.div>
@@ -136,7 +152,7 @@ export default function CheckoutPage() {
           >
             <form
               onSubmit={handleSubmit(onSubmit)}
-              className="p-6 rounded-2xl bg-zinc-900/50 border border-zinc-800 space-y-6"
+              className="p-6 rounded-xl bg-[#5A4A3F] border border-[#C9A227]/20 space-y-6"
             >
               <h2 className="font-heading text-lg font-semibold text-white">
                 Контактные данные
@@ -217,7 +233,7 @@ export default function CheckoutPage() {
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.2 }}
           >
-            <div className="p-6 rounded-2xl bg-zinc-900/50 border border-zinc-800 sticky top-24">
+            <div className="p-6 rounded-xl bg-[#5A4A3F] border border-[#C9A227]/20 sticky top-24">
               <h2 className="font-heading text-lg font-semibold text-white mb-4">
                 Ваш заказ
               </h2>
@@ -225,7 +241,7 @@ export default function CheckoutPage() {
               <div className="space-y-3 mb-6">
                 {items.map((item) => (
                   <div key={item.id} className="flex justify-between text-sm">
-                    <span className="text-zinc-400">
+                    <span className="text-[#E8E0D4]/70">
                       {item.name} × {item.quantity}
                     </span>
                     <span className="text-white">
@@ -235,10 +251,10 @@ export default function CheckoutPage() {
                 ))}
               </div>
 
-              <div className="border-t border-zinc-800 pt-4">
+              <div className="border-t border-[#C9A227]/20 pt-4">
                 <div className="flex justify-between">
                   <span className="font-medium text-white">Итого</span>
-                  <span className="text-xl font-bold text-white">
+                  <span className="text-xl font-bold text-[#C9A227]">
                     {formatPrice(getTotal())}
                   </span>
                 </div>
