@@ -1,0 +1,139 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = env("DATABASE_URL")
+}
+
+// ================== КАТАЛОГ ==================
+
+model Category {
+  id          String    @id @default(cuid())
+  name        String    // "Тюльпаны", "Мимоза"
+  slug        String    @unique
+  description String?
+  image       String?
+  sortOrder   Int       @default(0)
+  isActive    Boolean   @default(true)
+  products    Product[]
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime  @updatedAt
+}
+
+model Product {
+  id          String      @id @default(cuid())
+  name        String      // "Тюльпан Red Princess"
+  slug        String      @unique
+  description String?
+  color       String      // "Красный", "Жёлтый"
+  price       Int         // Цена в копейках (4500 = 45₽)
+  oldPrice    Int?        // Старая цена (для скидок)
+  quantity    Int         @default(0)
+  minOrder    Int         @default(1)
+  images      String      @default("[]") // JSON массив URL изображений
+  categoryId  String
+  category    Category    @relation(fields: [categoryId], references: [id])
+  isActive    Boolean     @default(true)
+  isNew       Boolean     @default(false)
+  isHit       Boolean     @default(false)
+  sortOrder   Int         @default(0)
+  createdAt   DateTime    @default(now())
+  updatedAt   DateTime    @updatedAt
+  orderItems  OrderItem[]
+}
+
+// ================== ЗАКАЗЫ ==================
+
+model Order {
+  id           String      @id @default(cuid())
+  orderNumber  String      @unique // "RT-2026-0001"
+  customerName String
+  phone        String
+  email        String?
+  address      String?
+  comment      String?
+  totalAmount  Int         // Сумма в копейках
+  status       String      @default("NEW") // NEW, PROCESSING, COMPLETED, CANCELLED
+  items        OrderItem[]
+  createdAt    DateTime    @default(now())
+  updatedAt    DateTime    @updatedAt
+}
+
+model OrderItem {
+  id        String  @id @default(cuid())
+  orderId   String
+  order     Order   @relation(fields: [orderId], references: [id], onDelete: Cascade)
+  productId String
+  product   Product @relation(fields: [productId], references: [id])
+  quantity  Int
+  price     Int     // Цена на момент заказа
+}
+
+// ================== АДМИНИСТРАТОРЫ ==================
+
+model Admin {
+  id        String   @id @default(cuid())
+  email     String   @unique
+  password  String   // bcrypt hash
+  name      String
+  role      String   @default("admin") // admin, superadmin
+  isActive  Boolean  @default(true)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+// ================== КОНТЕНТ САЙТА ==================
+
+model SiteSettings {
+  id          String   @id @default(cuid())
+  key         String   @unique
+  value       String
+  type        String   @default("text") // text, textarea, image, json, boolean
+  label       String   // Название для админки
+  group       String   @default("general") // general, contacts, social, seo
+  sortOrder   Int      @default(0)
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+}
+
+model HeroBanner {
+  id          String   @id @default(cuid())
+  title       String
+  subtitle    String?
+  buttonText  String?
+  buttonLink  String?
+  image       String?
+  bgGradient  String?  // CSS градиент для фона
+  isActive    Boolean  @default(true)
+  sortOrder   Int      @default(0)
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+}
+
+model Advantage {
+  id          String   @id @default(cuid())
+  title       String
+  description String?
+  icon        String?  // Название иконки из Lucide
+  sortOrder   Int      @default(0)
+  isActive    Boolean  @default(true)
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+}
+
+model Page {
+  id          String   @id @default(cuid())
+  slug        String   @unique // about, contacts, privacy
+  title       String
+  content     String   // HTML или Markdown контент
+  metaTitle   String?
+  metaDesc    String?
+  isActive    Boolean  @default(true)
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+}

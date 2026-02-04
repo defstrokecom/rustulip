@@ -2,9 +2,6 @@ import { prisma } from "@/lib/prisma"
 import { HeroSection } from "@/components/site/hero-section"
 import { AdvantagesSection } from "@/components/site/advantages-section"
 import { ProductsSection } from "@/components/site/products-section"
-import { Header } from "@/components/site/header"
-import { Footer } from "@/components/site/footer"
-import { Toaster } from "@/components/ui/toaster"
 
 async function getHomeData() {
   const [banner, advantages, products] = await Promise.all([
@@ -32,27 +29,22 @@ export default async function HomePage() {
 
   return (
     <>
-      <Header />
-      <main className="min-h-screen pt-16 md:pt-20">
-        {/* Hero Section */}
-        <HeroSection banner={banner} />
+      {/* Hero Section */}
+      <HeroSection banner={banner} />
 
-        {/* Advantages */}
-        {advantages.length > 0 && (
-          <AdvantagesSection advantages={advantages} />
-        )}
+      {/* Advantages */}
+      {advantages.length > 0 && (
+        <AdvantagesSection advantages={advantages} />
+      )}
 
-        {/* Popular Products */}
-        {products.length > 0 && (
-          <ProductsSection
-            title="Популярные товары"
-            subtitle="Самые востребованные цветы этого сезона"
-            products={products}
-          />
-        )}
-      </main>
-      <Footer />
-      <Toaster />
+      {/* Popular Products */}
+      {products.length > 0 && (
+        <ProductsSection
+          title="Популярные товары"
+          subtitle="Самые востребованные цветы этого сезона"
+          products={products}
+        />
+      )}
     </>
   )
 }
