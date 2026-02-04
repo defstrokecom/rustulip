@@ -66,7 +66,7 @@ export function HeroSection({ banner }: { banner: HeroBanner | null }) {
             transition={{ duration: 0.5, delay: 0.2 }}
             className="mb-6"
           >
-            <span className="font-heading text-[#C9A227] text-xl tracking-widest">ПРАЙС-ЛИСТ 2025</span>
+            <span className="font-heading text-[#C9A227] text-xl md:text-2xl tracking-[0.3em]">ПРАЙС-ЛИСТ <span className="font-sans font-semibold">2025</span></span>
           </motion.div>
 
           {data.subtitle && (
