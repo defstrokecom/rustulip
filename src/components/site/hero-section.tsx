@@ -129,7 +129,7 @@ export function HeroSection({ banner }: { banner: HeroBanner | null }) {
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.5, delay: 0.6 }}
-            className="flex flex-wrap justify-center gap-8 md:gap-12 mt-16 pt-8 border-t border-[#C9A227]/20"
+            className="flex flex-wrap justify-center gap-8 md:gap-12 mt-12 py-8 border-t border-[#C9A227]/20"
           >
             <div className="text-center">
               <p className="text-3xl md:text-4xl font-heading font-bold text-[#C9A227]">10 000+</p>
