@@ -18,7 +18,7 @@ export function Footer() {
                 className="object-contain"
               />
               <span className="font-heading text-[#C9A227] text-xl">
-                &quot;РусТюльпан&quot;
+                РусТюльпан
               </span>
             </Link>
             <p className="text-[#E8E0D4]/80 text-sm leading-relaxed">

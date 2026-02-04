@@ -31,8 +31,7 @@ export function HeroSection({ banner }: { banner: HeroBanner | null }) {
       <div className="absolute inset-0 pattern-overlay" />
       
 
-      {/* Gold line decorations */}
-      <div className="absolute top-20 left-0 right-0 h-px bg-gradient-to-r from-transparent via-[#C9A227]/30 to-transparent" />
+      {/* Gold line decoration - bottom only */}
       <div className="absolute bottom-20 left-0 right-0 h-px bg-gradient-to-r from-transparent via-[#C9A227]/30 to-transparent" />
 
       <div className="container mx-auto px-4 relative z-10">
@@ -42,15 +41,20 @@ export function HeroSection({ banner }: { banner: HeroBanner | null }) {
             initial={{ opacity: 0, y: -20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.5 }}
-            className="flex flex-col items-center mb-8"
+            className="flex flex-col items-center"
           >
-            <span className="font-heading text-[#C9A227] text-2xl tracking-wide mb-4">&quot;РусТюльпан&quot;</span>
+            <span className="font-heading text-[#C9A227] text-2xl tracking-wide mb-4">РусТюльпан</span>
+            
+            {/* Gold line between text and logo */}
+            <div className="w-64 h-px bg-gradient-to-r from-transparent via-[#C9A227]/50 to-transparent mb-2" />
+            
+            {/* Logo crosses the line */}
             <Image 
               src="/logo.png" 
               alt="РусТюльпан" 
               width={70} 
               height={110}
-              className="object-contain brightness-125 contrast-110 drop-shadow-[0_0_8px_rgba(201,162,39,0.5)]"
+              className="object-contain brightness-125 contrast-110 drop-shadow-[0_0_8px_rgba(201,162,39,0.5)] -mt-4"
             />
           </motion.div>
 

@@ -34,7 +34,7 @@ export function Header() {
               className="object-contain"
             />
             <div className="hidden sm:block">
-              <span className="font-heading text-[#C9A227] text-xl tracking-wide">&quot;РусТюльпан&quot;</span>
+              <span className="font-heading text-[#C9A227] text-xl tracking-wide">РусТюльпан</span>
             </div>
           </Link>
 
