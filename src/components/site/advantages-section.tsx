@@ -34,7 +34,7 @@ export function AdvantagesSection({ advantages }: { advantages: Advantage[] }) {
   }
 
   return (
-    <section className="py-20 bg-zinc-900/50">
+    <section className="py-20 bg-[#5C4D42]">
       <div className="container mx-auto px-4">
         <motion.div
           initial={{ opacity: 0, y: 20 }}
@@ -42,10 +42,10 @@ export function AdvantagesSection({ advantages }: { advantages: Advantage[] }) {
           viewport={{ once: true }}
           className="text-center mb-12"
         >
-          <h2 className="font-heading text-3xl md:text-4xl font-bold text-white mb-4">
+          <h2 className="font-heading text-3xl md:text-4xl font-bold text-[#C9A227] mb-4">
             Почему выбирают нас
           </h2>
-          <p className="text-zinc-400 max-w-2xl mx-auto">
+          <p className="text-[#E8E0D4]/80 max-w-2xl mx-auto">
             Мы делаем всё, чтобы ваши цветы были свежими, а доставка — быстрой
           </p>
         </motion.div>
@@ -60,20 +60,20 @@ export function AdvantagesSection({ advantages }: { advantages: Advantage[] }) {
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
                 transition={{ delay: index * 0.1 }}
-                className="group relative p-6 rounded-2xl bg-zinc-800/30 border border-zinc-800 hover:border-pink-500/30 transition-all duration-300"
+                className="group relative p-6 rounded-xl bg-[#6B5B4F]/50 border border-[#C9A227]/20 hover:border-[#C9A227]/50 transition-all duration-300"
               >
                 {/* Gradient glow on hover */}
-                <div className="absolute inset-0 rounded-2xl bg-gradient-to-br from-pink-500/5 to-purple-500/5 opacity-0 group-hover:opacity-100 transition-opacity" />
+                <div className="absolute inset-0 rounded-xl bg-gradient-to-br from-[#C9A227]/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity" />
                 
                 <div className="relative">
-                  <div className="w-12 h-12 rounded-xl bg-gradient-to-br from-pink-500 to-purple-500 flex items-center justify-center mb-4 shadow-lg shadow-pink-500/20">
-                    <Icon className="w-6 h-6 text-white" />
+                  <div className="w-12 h-12 rounded-lg bg-[#C9A227] flex items-center justify-center mb-4 shadow-lg">
+                    <Icon className="w-6 h-6 text-[#3D3229]" />
                   </div>
                   <h3 className="font-heading text-lg font-semibold text-white mb-2">
                     {advantage.title}
                   </h3>
                   {advantage.description && (
-                    <p className="text-sm text-zinc-400">
+                    <p className="text-sm text-[#E8E0D4]/70 leading-relaxed">
                       {advantage.description}
                     </p>
                   )}

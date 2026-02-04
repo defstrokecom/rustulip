@@ -38,7 +38,7 @@ export function ProductsSection({
   viewAllLink = "/catalog",
 }: ProductsSectionProps) {
   return (
-    <section className="py-20">
+    <section className="py-20 bg-[#6B5B4F]">
       <div className="container mx-auto px-4">
         <motion.div
           initial={{ opacity: 0, y: 20 }}
@@ -47,13 +47,17 @@ export function ProductsSection({
           className="flex flex-col md:flex-row md:items-end justify-between gap-4 mb-12"
         >
           <div>
-            <h2 className="font-heading text-3xl md:text-4xl font-bold text-white mb-2">
+            <h2 className="font-heading text-3xl md:text-4xl font-bold text-[#C9A227] mb-2">
               {title}
             </h2>
-            {subtitle && <p className="text-zinc-400">{subtitle}</p>}
+            {subtitle && <p className="text-[#E8E0D4]/80">{subtitle}</p>}
           </div>
           {showViewAll && (
-            <Button variant="ghost" asChild>
+            <Button 
+              variant="ghost" 
+              asChild
+              className="text-[#C9A227] hover:text-[#D4AF37] hover:bg-[#C9A227]/10"
+            >
               <Link href={viewAllLink}>
                 Смотреть все
                 <ArrowRight className="w-4 h-4 ml-2" />

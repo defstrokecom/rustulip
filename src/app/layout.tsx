@@ -1,24 +1,26 @@
 import type { Metadata } from "next"
-import { Space_Grotesk, Inter } from "next/font/google"
+import { Playfair_Display, Open_Sans } from "next/font/google"
 import "./globals.css"
 
-const spaceGrotesk = Space_Grotesk({
-  subsets: ["latin", "latin-ext"],
+const playfair = Playfair_Display({
+  subsets: ["latin", "cyrillic"],
   variable: "--font-heading",
+  weight: ["400", "500", "600", "700"],
 })
 
-const inter = Inter({
+const openSans = Open_Sans({
   subsets: ["latin", "cyrillic"],
   variable: "--font-body",
+  weight: ["300", "400", "500", "600", "700"],
 })
 
 export const metadata: Metadata = {
-  title: "РусТюльпан — Свежие тюльпаны и мимоза с доставкой",
-  description: "Купить свежие тюльпаны и мимозу в Москве. Быстрая доставка, низкие цены, широкий ассортимент.",
-  keywords: ["тюльпаны", "мимоза", "цветы", "доставка цветов", "купить тюльпаны", "Москва"],
+  title: "РусТюльпан — Свежие тюльпаны к 8 марта",
+  description: "Компания «РусТюльпан» предлагает вам тюльпаны, выращенные из отборных голландских луковиц. Доставка по всей России.",
+  keywords: ["тюльпаны", "8 марта", "цветы", "доставка цветов", "купить тюльпаны", "голландские тюльпаны", "РусТюльпан"],
   openGraph: {
-    title: "РусТюльпан — Свежие тюльпаны и мимоза",
-    description: "Купить свежие тюльпаны и мимозу с доставкой",
+    title: "РусТюльпан — Свежие тюльпаны к 8 марта",
+    description: "Тюльпаны из отборных голландских луковиц с доставкой",
     type: "website",
     locale: "ru_RU",
   },
@@ -30,9 +32,9 @@ export default function RootLayout({
   children: React.ReactNode
 }>) {
   return (
-    <html lang="ru" className="dark">
+    <html lang="ru">
       <body
-        className={`${spaceGrotesk.variable} ${inter.variable} font-body antialiased bg-[#0a0a0b] text-zinc-100`}
+        className={`${playfair.variable} ${openSans.variable} font-body antialiased bg-[#6B5B4F] text-white`}
       >
         {children}
       </body>
