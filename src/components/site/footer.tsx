@@ -11,9 +11,12 @@ export function Footer() {
             <Link href="/" className="flex items-center gap-3">
               {/* Tulip Icon */}
               <div className="text-[#C9A227]">
-                <svg width="28" height="36" viewBox="0 0 32 40" fill="none" xmlns="http://www.w3.org/2000/svg">
-                  <path d="M16 0C16 0 8 8 8 16C8 20.4 11.6 24 16 24C20.4 24 24 20.4 24 16C24 8 16 0 16 0Z" fill="currentColor"/>
-                  <path d="M15 24V38M15 38C12 38 10 36 10 36M15 38C18 38 20 36 20 36" stroke="currentColor" strokeWidth="2" strokeLinecap="round"/>
+                <svg width="24" height="38" viewBox="0 0 28 44" fill="none" xmlns="http://www.w3.org/2000/svg">
+                  <path d="M14 2C14 2 6 10 6 18C6 22 9.5 25 14 25C18.5 25 22 22 22 18C22 10 14 2 14 2Z" stroke="currentColor" strokeWidth="1.5" fill="none"/>
+                  <path d="M14 4C14 4 10 10 10 16C10 19 11.5 21 14 21C16.5 21 18 19 18 16C18 10 14 4 14 4Z" stroke="currentColor" strokeWidth="1.5" fill="none"/>
+                  <path d="M14 25V40" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round"/>
+                  <path d="M14 32C14 32 8 34 6 38C8 36 12 35 14 35" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" fill="none"/>
+                  <path d="M14 32C14 32 20 34 22 38C20 36 16 35 14 35" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" fill="none"/>
                 </svg>
               </div>
               <span className="font-heading text-[#C9A227] text-xl">
