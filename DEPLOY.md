@@ -42,7 +42,10 @@ sudo apt install -y git
 # Переход в домашнюю директорию
 cd ~
 
-# Клонирование репозитория
+# Клонирование репозитория (с токеном для авторизации)
+git clone https://YOUR_GITHUB_TOKEN@github.com/defstrokecom/rustulip.git
+
+# Или без токена (для публичного репозитория)
 git clone https://github.com/defstrokecom/rustulip.git
 
 # Переход в директорию проекта
