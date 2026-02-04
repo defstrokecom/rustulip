@@ -1,5 +1,4 @@
 import { prisma } from "@/lib/prisma"
-import { motion } from "framer-motion"
 import { 
   Leaf, 
   Truck, 
@@ -7,8 +6,6 @@ import {
   Heart,
   Users,
   Calendar,
-  MapPin,
-  Clock
 } from "lucide-react"
 
 async function getAboutData() {
@@ -45,7 +42,7 @@ export default async function AboutPage() {
     {
       icon: Truck,
       title: "Быстрая доставка",
-      description: "Доставляем по Москве в течение 2 часов. Бережно упаковываем каждый заказ"
+      description: "Доставляем по всей России. Бережно упаковываем каждый заказ"
     },
     {
       icon: Award,
@@ -55,44 +52,38 @@ export default async function AboutPage() {
   ]
 
   return (
-    <div className="min-h-screen">
+    <div className="min-h-screen bg-[#6F5D50]">
       {/* Hero */}
       <section className="relative py-20 overflow-hidden">
-        <div className="absolute inset-0 bg-gradient-to-br from-pink-500/10 to-purple-500/10" />
-        <div 
-          className="absolute inset-0 opacity-5"
-          style={{
-            backgroundImage: `url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23ffffff' fill-opacity='1'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E")`,
-          }}
-        />
+        <div className="absolute inset-0 pattern-overlay" />
         
         <div className="container mx-auto px-4 relative z-10">
           <div className="max-w-3xl mx-auto text-center">
             <h1 className="font-heading text-4xl md:text-5xl lg:text-6xl font-bold text-white mb-6">
               О компании{" "}
-              <span className="bg-gradient-to-r from-pink-500 to-purple-500 bg-clip-text text-transparent">
+              <span className="text-[#C9A227]">
                 РусТюльпан
               </span>
             </h1>
-            <p className="text-lg md:text-xl text-zinc-300">
+            <p className="text-lg md:text-xl text-[#E8E0D4]/80">
               Мы — команда энтузиастов, которые верят, что свежие цветы могут сделать любой день особенным. 
-              С 2019 года мы доставляем радость в дома москвичей.
+              Предлагаем тюльпаны, выращенные из отборных голландских луковиц.
             </p>
           </div>
         </div>
       </section>
 
       {/* Stats */}
-      <section className="py-16 bg-zinc-900/50">
+      <section className="py-16 bg-[#5A4A3F]">
         <div className="container mx-auto px-4">
           <div className="grid grid-cols-2 md:grid-cols-4 gap-8">
             {stats.map((stat, index) => (
               <div key={index} className="text-center">
-                <div className="w-14 h-14 mx-auto mb-4 rounded-2xl bg-gradient-to-br from-pink-500 to-purple-500 flex items-center justify-center">
-                  <stat.icon className="w-7 h-7 text-white" />
+                <div className="w-14 h-14 mx-auto mb-4 rounded-xl bg-[#C9A227] flex items-center justify-center">
+                  <stat.icon className="w-7 h-7 text-[#3D3229]" />
                 </div>
-                <p className="text-3xl md:text-4xl font-bold text-white mb-1">{stat.value}</p>
-                <p className="text-sm text-zinc-400">{stat.label}</p>
+                <p className="text-3xl md:text-4xl font-heading font-bold text-[#C9A227] mb-1">{stat.value}</p>
+                <p className="text-sm text-[#E8E0D4]/70">{stat.label}</p>
               </div>
             ))}
           </div>
@@ -104,19 +95,17 @@ export default async function AboutPage() {
         <div className="container mx-auto px-4">
           <div className="grid md:grid-cols-2 gap-12 items-center">
             <div>
-              <h2 className="font-heading text-3xl md:text-4xl font-bold text-white mb-6">
+              <h2 className="font-heading text-3xl md:text-4xl font-bold text-[#C9A227] mb-6">
                 Наша история
               </h2>
-              <div className="space-y-4 text-zinc-300">
+              <div className="space-y-4 text-[#E8E0D4]/80">
                 <p>
                   Всё началось с простой идеи — сделать покупку свежих цветов простой и доступной. 
-                  В 2019 году мы открыли первый склад и начали работать напрямую с плантациями 
-                  в Голландии, Эквадоре и России.
+                  Мы начали работать напрямую с плантациями в Голландии, Эквадоре и России.
                 </p>
                 <p>
-                  Сегодня РусТюльпан — это современная компания с собственным складом площадью 
-                  более 500 м², холодильными камерами для хранения цветов и командой профессиональных 
-                  флористов.
+                  Сегодня РусТюльпан — это современная компания с собственным складом, 
+                  холодильными камерами для хранения цветов и командой профессионалов.
                 </p>
                 <p>
                   Мы специализируемся на оптовых и розничных поставках тюльпанов и мимозы — 
@@ -126,27 +115,26 @@ export default async function AboutPage() {
               </div>
             </div>
             <div className="relative">
-              <div className="aspect-square rounded-3xl bg-gradient-to-br from-pink-500/20 to-purple-500/20 flex items-center justify-center">
+              <div className="aspect-square rounded-2xl bg-[#5A4A3F] border border-[#C9A227]/20 flex items-center justify-center">
                 <div className="text-center p-8">
                   <span className="text-8xl mb-4 block">🌷</span>
-                  <p className="text-2xl font-bold text-white">С 2019 года</p>
-                  <p className="text-zinc-400">дарим радость</p>
+                  <p className="text-2xl font-heading font-bold text-[#C9A227]">Голландские луковицы</p>
+                  <p className="text-[#E8E0D4]/70">премиум качество</p>
                 </div>
               </div>
-              <div className="absolute -bottom-6 -right-6 w-32 h-32 bg-gradient-to-br from-pink-500 to-purple-500 rounded-2xl opacity-20 blur-2xl" />
             </div>
           </div>
         </div>
       </section>
 
       {/* Values */}
-      <section className="py-20 bg-zinc-900/50">
+      <section className="py-20 bg-[#5A4A3F]">
         <div className="container mx-auto px-4">
           <div className="text-center mb-12">
-            <h2 className="font-heading text-3xl md:text-4xl font-bold text-white mb-4">
+            <h2 className="font-heading text-3xl md:text-4xl font-bold text-[#C9A227] mb-4">
               Наши ценности
             </h2>
-            <p className="text-zinc-400 max-w-2xl mx-auto">
+            <p className="text-[#E8E0D4]/70 max-w-2xl mx-auto">
               Принципы, которые помогают нам каждый день становиться лучше
             </p>
           </div>
@@ -155,15 +143,15 @@ export default async function AboutPage() {
             {values.map((value, index) => (
               <div
                 key={index}
-                className="p-6 rounded-2xl bg-zinc-800/30 border border-zinc-800 hover:border-pink-500/30 transition-all duration-300 group"
+                className="p-6 rounded-xl bg-[#6F5D50]/50 border border-[#C9A227]/20 hover:border-[#C9A227]/50 transition-all duration-300 group"
               >
-                <div className="w-12 h-12 rounded-xl bg-gradient-to-br from-pink-500 to-purple-500 flex items-center justify-center mb-4 shadow-lg shadow-pink-500/20 group-hover:scale-110 transition-transform">
-                  <value.icon className="w-6 h-6 text-white" />
+                <div className="w-12 h-12 rounded-lg bg-[#C9A227] flex items-center justify-center mb-4 group-hover:scale-110 transition-transform">
+                  <value.icon className="w-6 h-6 text-[#3D3229]" />
                 </div>
                 <h3 className="font-heading text-lg font-semibold text-white mb-2">
                   {value.title}
                 </h3>
-                <p className="text-sm text-zinc-400">
+                <p className="text-sm text-[#E8E0D4]/70">
                   {value.description}
                 </p>
               </div>
@@ -176,22 +164,22 @@ export default async function AboutPage() {
       <section className="py-20">
         <div className="container mx-auto px-4">
           <div className="max-w-3xl mx-auto text-center">
-            <h2 className="font-heading text-3xl md:text-4xl font-bold text-white mb-6">
+            <h2 className="font-heading text-3xl md:text-4xl font-bold text-[#C9A227] mb-6">
               Готовы сделать заказ?
             </h2>
-            <p className="text-zinc-400 mb-8">
+            <p className="text-[#E8E0D4]/70 mb-8">
               Выберите свежие цветы из нашего каталога или свяжитесь с нами для индивидуального заказа
             </p>
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
               <a
                 href="/catalog"
-                className="inline-flex items-center justify-center px-8 py-3 rounded-xl bg-gradient-to-r from-pink-500 to-purple-500 text-white font-medium hover:opacity-90 transition-opacity"
+                className="inline-flex items-center justify-center px-8 py-3 rounded-lg bg-[#C9A227] hover:bg-[#D4AF37] text-[#3D3229] font-semibold transition-colors"
               >
                 Перейти в каталог
               </a>
               <a
                 href="/contacts"
-                className="inline-flex items-center justify-center px-8 py-3 rounded-xl border border-zinc-700 text-white font-medium hover:bg-zinc-800 transition-colors"
+                className="inline-flex items-center justify-center px-8 py-3 rounded-lg border border-[#C9A227] text-[#C9A227] font-medium hover:bg-[#C9A227] hover:text-[#3D3229] transition-colors"
               >
                 Связаться с нами
               </a>

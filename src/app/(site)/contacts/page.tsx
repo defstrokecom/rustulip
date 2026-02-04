@@ -9,7 +9,6 @@ import {
   Clock, 
   Send,
   MessageCircle,
-  Instagram,
   Loader2,
   CheckCircle
 } from "lucide-react"
@@ -52,11 +51,11 @@ export default function ContactsPage() {
       description: "Для деловых предложений"
     },
     {
-      icon: Instagram,
-      title: "Instagram",
-      value: "@rustulip",
-      link: "https://instagram.com/rustulip",
-      description: "Фото наших букетов"
+      icon: MessageCircle,
+      title: "Telegram",
+      value: "@shapo_sh",
+      link: "https://t.me/shapo_sh",
+      description: "Быстрая связь"
     },
   ]
 
@@ -64,8 +63,8 @@ export default function ContactsPage() {
     {
       icon: MapPin,
       title: "Адрес",
-      value: "г. Москва, ул. Цветочная, д. 1",
-      description: "Пункт самовывоза"
+      value: "г. Москва",
+      description: "Доставка по всей России"
     },
     {
       icon: Clock,
@@ -92,23 +91,17 @@ export default function ContactsPage() {
   }
 
   return (
-    <div className="min-h-screen">
+    <div className="min-h-screen bg-[#6F5D50]">
       {/* Hero */}
       <section className="relative py-20 overflow-hidden">
-        <div className="absolute inset-0 bg-gradient-to-br from-pink-500/10 to-purple-500/10" />
-        <div 
-          className="absolute inset-0 opacity-5"
-          style={{
-            backgroundImage: `url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23ffffff' fill-opacity='1'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E")`,
-          }}
-        />
+        <div className="absolute inset-0 pattern-overlay" />
         
         <div className="container mx-auto px-4 relative z-10">
           <div className="max-w-3xl mx-auto text-center">
             <h1 className="font-heading text-4xl md:text-5xl lg:text-6xl font-bold text-white mb-6">
               Контакты
             </h1>
-            <p className="text-lg md:text-xl text-zinc-300">
+            <p className="text-lg md:text-xl text-[#E8E0D4]/80">
               Свяжитесь с нами любым удобным способом — мы всегда рады помочь!
             </p>
           </div>
@@ -128,16 +121,16 @@ export default function ContactsPage() {
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ delay: index * 0.1 }}
-                className="p-6 rounded-2xl bg-zinc-900/50 border border-zinc-800 hover:border-pink-500/30 transition-all duration-300 group"
+                className="p-6 rounded-xl bg-[#5A4A3F] border border-[#C9A227]/20 hover:border-[#C9A227]/50 transition-all duration-300 group"
               >
-                <div className="w-12 h-12 rounded-xl bg-gradient-to-br from-pink-500 to-purple-500 flex items-center justify-center mb-4 shadow-lg shadow-pink-500/20 group-hover:scale-110 transition-transform">
-                  <contact.icon className="w-6 h-6 text-white" />
+                <div className="w-12 h-12 rounded-lg bg-[#C9A227] flex items-center justify-center mb-4 group-hover:scale-110 transition-transform">
+                  <contact.icon className="w-6 h-6 text-[#3D3229]" />
                 </div>
                 <h3 className="font-heading text-lg font-semibold text-white mb-1">
                   {contact.title}
                 </h3>
-                <p className="text-pink-400 font-medium mb-1">{contact.value}</p>
-                <p className="text-sm text-zinc-500">{contact.description}</p>
+                <p className="text-[#C9A227] font-medium mb-1">{contact.value}</p>
+                <p className="text-sm text-[#E8E0D4]/60">{contact.description}</p>
               </motion.a>
             ))}
           </div>
@@ -145,37 +138,37 @@ export default function ContactsPage() {
       </section>
 
       {/* Info & Form */}
-      <section className="py-16 bg-zinc-900/50">
+      <section className="py-16 bg-[#5A4A3F]">
         <div className="container mx-auto px-4">
           <div className="grid lg:grid-cols-2 gap-12">
             {/* Info */}
             <div>
-              <h2 className="font-heading text-3xl font-bold text-white mb-8">
+              <h2 className="font-heading text-3xl font-bold text-[#C9A227] mb-8">
                 Информация
               </h2>
               
               <div className="space-y-6 mb-12">
                 {info.map((item, index) => (
                   <div key={index} className="flex gap-4">
-                    <div className="w-12 h-12 rounded-xl bg-zinc-800 flex items-center justify-center flex-shrink-0">
-                      <item.icon className="w-6 h-6 text-pink-400" />
+                    <div className="w-12 h-12 rounded-lg bg-[#6F5D50] border border-[#C9A227]/20 flex items-center justify-center flex-shrink-0">
+                      <item.icon className="w-6 h-6 text-[#C9A227]" />
                     </div>
                     <div>
                       <h3 className="font-medium text-white mb-1">{item.title}</h3>
-                      <p className="text-zinc-300">{item.value}</p>
-                      <p className="text-sm text-zinc-500">{item.description}</p>
+                      <p className="text-[#E8E0D4]/80">{item.value}</p>
+                      <p className="text-sm text-[#E8E0D4]/60">{item.description}</p>
                     </div>
                   </div>
                 ))}
               </div>
 
               {/* Map placeholder */}
-              <div className="aspect-video rounded-2xl bg-zinc-800 overflow-hidden">
-                <div className="w-full h-full flex items-center justify-center text-zinc-500">
+              <div className="aspect-video rounded-xl bg-[#6F5D50] border border-[#C9A227]/20 overflow-hidden">
+                <div className="w-full h-full flex items-center justify-center text-[#E8E0D4]/50">
                   <div className="text-center">
                     <MapPin className="w-12 h-12 mx-auto mb-2 opacity-50" />
                     <p>Карта</p>
-                    <p className="text-sm">г. Москва, ул. Цветочная, д. 1</p>
+                    <p className="text-sm">Доставка по всей России</p>
                   </div>
                 </div>
               </div>
@@ -183,7 +176,7 @@ export default function ContactsPage() {
 
             {/* Form */}
             <div>
-              <h2 className="font-heading text-3xl font-bold text-white mb-8">
+              <h2 className="font-heading text-3xl font-bold text-[#C9A227] mb-8">
                 Напишите нам
               </h2>
 
@@ -191,13 +184,13 @@ export default function ContactsPage() {
                 <motion.div
                   initial={{ opacity: 0, scale: 0.9 }}
                   animate={{ opacity: 1, scale: 1 }}
-                  className="p-8 rounded-2xl bg-zinc-800/50 border border-zinc-700 text-center"
+                  className="p-8 rounded-xl bg-[#6F5D50]/50 border border-[#C9A227]/20 text-center"
                 >
-                  <CheckCircle className="w-16 h-16 text-green-400 mx-auto mb-4" />
+                  <CheckCircle className="w-16 h-16 text-[#C9A227] mx-auto mb-4" />
                   <h3 className="text-xl font-bold text-white mb-2">
                     Спасибо за обращение!
                   </h3>
-                  <p className="text-zinc-400 mb-6">
+                  <p className="text-[#E8E0D4]/70 mb-6">
                     Мы получили ваше сообщение и свяжемся с вами в ближайшее время.
                   </p>
                   <Button onClick={() => {
@@ -218,6 +211,7 @@ export default function ContactsPage() {
                         value={formData.name}
                         onChange={(e) => setFormData({ ...formData, name: e.target.value })}
                         required
+                        className="bg-[#6F5D50] border-[#C9A227]/30 text-white placeholder:text-[#E8E0D4]/40 focus:border-[#C9A227]"
                       />
                     </div>
                     <div className="space-y-2">
@@ -229,6 +223,7 @@ export default function ContactsPage() {
                         value={formData.phone}
                         onChange={(e) => setFormData({ ...formData, phone: e.target.value })}
                         required
+                        className="bg-[#6F5D50] border-[#C9A227]/30 text-white placeholder:text-[#E8E0D4]/40 focus:border-[#C9A227]"
                       />
                     </div>
                   </div>
@@ -241,6 +236,7 @@ export default function ContactsPage() {
                       placeholder="ivan@example.com"
                       value={formData.email}
                       onChange={(e) => setFormData({ ...formData, email: e.target.value })}
+                      className="bg-[#6F5D50] border-[#C9A227]/30 text-white placeholder:text-[#E8E0D4]/40 focus:border-[#C9A227]"
                     />
                   </div>
 
@@ -253,6 +249,7 @@ export default function ContactsPage() {
                       value={formData.message}
                       onChange={(e) => setFormData({ ...formData, message: e.target.value })}
                       required
+                      className="bg-[#6F5D50] border-[#C9A227]/30 text-white placeholder:text-[#E8E0D4]/40 focus:border-[#C9A227]"
                     />
                   </div>
 
@@ -270,7 +267,7 @@ export default function ContactsPage() {
                     )}
                   </Button>
 
-                  <p className="text-sm text-zinc-500 text-center">
+                  <p className="text-sm text-[#E8E0D4]/50 text-center">
                     Нажимая кнопку, вы соглашаетесь с политикой конфиденциальности
                   </p>
                 </form>
