@@ -9,9 +9,6 @@ import { Button } from "@/components/ui/button"
 import { Suspense } from "react"
 import { formatPrice } from "@/lib/utils"
 
-// Telegram username продавца
-const TELEGRAM_USERNAME = "shapo_sh"
-
 interface OrderItem {
   name: string
   quantity: number
@@ -27,25 +24,39 @@ interface OrderData {
   comment: string
 }
 
+interface TelegramSettings {
+  enabled: boolean
+  sellerUsername: string
+}
+
 function SuccessContent() {
   const searchParams = useSearchParams()
   const orderNumber = searchParams.get("order")
   const [orderData, setOrderData] = useState<OrderData | null>(null)
   const [telegramUrl, setTelegramUrl] = useState<string>("")
+  const [telegramEnabled, setTelegramEnabled] = useState(false)
 
   useEffect(() => {
-    // Получаем данные заказа из sessionStorage
-    const savedOrder = sessionStorage.getItem("lastOrder")
-    if (savedOrder) {
-      const data: OrderData = JSON.parse(savedOrder)
-      setOrderData(data)
-      
-      // Формируем текст сообщения для Telegram
-      const itemsList = data.items
-        .map(item => `• ${item.name} × ${item.quantity} шт. = ${formatPrice(item.price * item.quantity)}`)
-        .join("\n")
-      
-      const message = `🌷 Заказ №${data.orderNumber}
+    // Получаем настройки Telegram из API
+    const fetchTelegramSettings = async () => {
+      try {
+        const res = await fetch("/api/settings/telegram")
+        if (res.ok) {
+          const settings: TelegramSettings = await res.json()
+          setTelegramEnabled(settings.enabled && !!settings.sellerUsername)
+          
+          // Получаем данные заказа из sessionStorage
+          const savedOrder = sessionStorage.getItem("lastOrder")
+          if (savedOrder && settings.enabled && settings.sellerUsername) {
+            const data: OrderData = JSON.parse(savedOrder)
+            setOrderData(data)
+            
+            // Формируем текст сообщения для Telegram
+            const itemsList = data.items
+              .map(item => `• ${item.name} × ${item.quantity} шт. = ${formatPrice(item.price * item.quantity)}`)
+              .join("\n")
+            
+            const message = `🌷 Заказ №${data.orderNumber}
 
 👤 Имя: ${data.customerName}
 📞 Телефон: ${data.phone}
@@ -56,14 +67,18 @@ ${itemsList}
 💰 Итого: ${formatPrice(data.total)}${data.comment ? `\n\n💬 Комментарий: ${data.comment}` : ""}
 
 Здравствуйте! Я оформил заказ на сайте и хотел бы уточнить детали.`
-      
-      // Создаём ссылку на Telegram
-      const encodedMessage = encodeURIComponent(message)
-      setTelegramUrl(`https://t.me/${TELEGRAM_USERNAME}?text=${encodedMessage}`)
-      
-      // Очищаем sessionStorage после использования
-      // sessionStorage.removeItem("lastOrder")
+            
+            // Создаём ссылку на Telegram
+            const encodedMessage = encodeURIComponent(message)
+            setTelegramUrl(`https://t.me/${settings.sellerUsername}?text=${encodedMessage}`)
+          }
+        }
+      } catch (error) {
+        console.error("Failed to fetch telegram settings:", error)
+      }
     }
+
+    fetchTelegramSettings()
   }, [])
 
   return (
@@ -98,7 +113,7 @@ ${itemsList}
           </p>
 
           {/* Telegram Button */}
-          {telegramUrl && (
+          {telegramEnabled && telegramUrl && (
             <motion.div
               initial={{ opacity: 0, y: 10 }}
               animate={{ opacity: 1, y: 0 }}

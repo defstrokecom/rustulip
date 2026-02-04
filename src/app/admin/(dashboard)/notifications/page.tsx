@@ -11,6 +11,7 @@ import {
   AlertCircle,
   Bell,
   TestTube,
+  MessageCircle,
 } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
@@ -38,8 +39,9 @@ interface EmailSettings {
 
 interface TelegramSettings {
   enabled: boolean
-  botToken: string
-  chatId: string
+  sellerUsername: string // Username продавца для чата с клиентами
+  botToken: string       // Для будущего функционала - бот для уведомлений
+  chatId: string         // Chat ID для бота
 }
 
 export default function NotificationsPage() {
@@ -59,7 +61,8 @@ export default function NotificationsPage() {
   })
 
   const [telegramSettings, setTelegramSettings] = useState<TelegramSettings>({
-    enabled: false,
+    enabled: true,
+    sellerUsername: "shapo_sh",
     botToken: "",
     chatId: "",
   })
@@ -74,7 +77,7 @@ export default function NotificationsPage() {
       if (res.ok) {
         const data = await res.json()
         if (data.email) setEmailSettings(data.email)
-        if (data.telegram) setTelegramSettings(data.telegram)
+        if (data.telegram) setTelegramSettings({ ...telegramSettings, ...data.telegram })
       }
     } catch (error) {
       console.error("Failed to fetch settings:", error)
@@ -171,10 +174,116 @@ export default function NotificationsPage() {
         <p className="text-zinc-400 mt-1">Настройка уведомлений о заказах</p>
       </div>
 
+      {/* Telegram Settings - Now Active! */}
+      <motion.div
+        initial={{ opacity: 0, y: 20 }}
+        animate={{ opacity: 1, y: 0 }}
+      >
+        <Card>
+          <CardHeader>
+            <div className="flex items-center justify-between">
+              <div className="flex items-center gap-3">
+                <div className="w-10 h-10 rounded-lg bg-gradient-to-br from-[#0088cc] to-[#00a0dc] flex items-center justify-center">
+                  <TelegramIcon className="w-5 h-5 text-white" />
+                </div>
+                <div>
+                  <CardTitle>Telegram чат</CardTitle>
+                  <CardDescription>Чат с клиентами после оформления заказа</CardDescription>
+                </div>
+              </div>
+              <div className="flex items-center gap-2">
+                {telegramSettings.enabled && telegramSettings.sellerUsername ? (
+                  <span className="flex items-center gap-1 text-sm text-green-400">
+                    <CheckCircle className="w-4 h-4" />
+                    Активен
+                  </span>
+                ) : (
+                  <span className="flex items-center gap-1 text-sm text-zinc-500">
+                    <AlertCircle className="w-4 h-4" />
+                    Не настроен
+                  </span>
+                )}
+              </div>
+            </div>
+          </CardHeader>
+          <CardContent className="space-y-6">
+            {/* Enable toggle */}
+            <label className="flex items-center gap-3 cursor-pointer">
+              <input
+                type="checkbox"
+                checked={telegramSettings.enabled}
+                onChange={(e) => setTelegramSettings({ ...telegramSettings, enabled: e.target.checked })}
+                className="w-5 h-5 rounded border-zinc-600 bg-zinc-800 text-pink-500"
+              />
+              <span className="text-white">Показывать кнопку &quot;Написать в Telegram&quot; после заказа</span>
+            </label>
+
+            {telegramSettings.enabled && (
+              <>
+                {/* Seller username */}
+                <div className="p-4 bg-zinc-800/50 rounded-lg space-y-4">
+                  <h4 className="font-medium text-white flex items-center gap-2">
+                    <MessageCircle className="w-4 h-4" />
+                    Чат с клиентами
+                  </h4>
+                  <div className="space-y-2">
+                    <Label>Username продавца в Telegram *</Label>
+                    <div className="flex items-center gap-2">
+                      <span className="text-zinc-400">@</span>
+                      <Input
+                        value={telegramSettings.sellerUsername}
+                        onChange={(e) => setTelegramSettings({ ...telegramSettings, sellerUsername: e.target.value.replace('@', '') })}
+                        placeholder="username"
+                      />
+                    </div>
+                    <p className="text-xs text-zinc-500">
+                      После оформления заказа клиенту будет предложено написать вам в Telegram. 
+                      Сообщение будет содержать данные заказа.
+                    </p>
+                  </div>
+
+                  {telegramSettings.sellerUsername && (
+                    <div className="p-3 bg-zinc-700/50 rounded-lg">
+                      <p className="text-sm text-zinc-300 mb-2">Ссылка для клиентов:</p>
+                      <code className="text-xs text-[#0088cc] break-all">
+                        https://t.me/{telegramSettings.sellerUsername}
+                      </code>
+                    </div>
+                  )}
+                </div>
+
+                {/* Bot notifications - Future */}
+                <div className="p-4 bg-zinc-800/50 rounded-lg space-y-4 opacity-50">
+                  <div className="flex items-center justify-between">
+                    <h4 className="font-medium text-white flex items-center gap-2">
+                      <Bell className="w-4 h-4" />
+                      Уведомления через бота
+                    </h4>
+                    <span className="px-2 py-0.5 text-xs font-medium bg-amber-500/20 text-amber-400 rounded-full">
+                      Скоро
+                    </span>
+                  </div>
+                  <p className="text-xs text-zinc-500">
+                    В будущем вы сможете получать автоматические уведомления о новых заказах через Telegram-бота.
+                  </p>
+                </div>
+
+                {/* Actions */}
+                <Button onClick={saveTelegramSettings} disabled={saving}>
+                  {saving && <Loader2 className="w-4 h-4 animate-spin mr-2" />}
+                  Сохранить настройки
+                </Button>
+              </>
+            )}
+          </CardContent>
+        </Card>
+      </motion.div>
+
       {/* Email Settings */}
       <motion.div
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
+        transition={{ delay: 0.1 }}
       >
         <Card>
           <CardHeader>
@@ -327,79 +436,6 @@ export default function NotificationsPage() {
                 </div>
               </>
             )}
-          </CardContent>
-        </Card>
-      </motion.div>
-
-      {/* Telegram Settings */}
-      <motion.div
-        initial={{ opacity: 0, y: 20 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ delay: 0.1 }}
-      >
-        <Card className="opacity-75">
-          <CardHeader>
-            <div className="flex items-center justify-between">
-              <div className="flex items-center gap-3">
-                <div className="w-10 h-10 rounded-lg bg-gradient-to-br from-[#0088cc] to-[#00a0dc] flex items-center justify-center">
-                  <TelegramIcon className="w-5 h-5 text-white" />
-                </div>
-                <div>
-                  <CardTitle>Telegram рассылка</CardTitle>
-                  <CardDescription>Уведомления о заказах в Telegram</CardDescription>
-                </div>
-              </div>
-              <span className="px-3 py-1 text-xs font-medium bg-amber-500/20 text-amber-400 rounded-full">
-                В разработке
-              </span>
-            </div>
-          </CardHeader>
-          <CardContent className="space-y-6">
-            {/* Enable toggle - disabled */}
-            <label className="flex items-center gap-3 cursor-not-allowed opacity-50">
-              <input
-                type="checkbox"
-                checked={telegramSettings.enabled}
-                disabled
-                className="w-5 h-5 rounded border-zinc-600 bg-zinc-800 text-pink-500"
-              />
-              <span className="text-white">Включить Telegram уведомления</span>
-            </label>
-
-            {/* Info */}
-            <div className="p-4 bg-amber-500/10 border border-amber-500/20 rounded-lg">
-              <p className="text-sm text-amber-200">
-                🚧 Функционал Telegram-бота находится в разработке. 
-                Скоро вы сможете получать уведомления о заказах прямо в Telegram!
-              </p>
-            </div>
-
-            {/* Preview of settings */}
-            <div className="p-4 bg-zinc-800/50 rounded-lg space-y-4 opacity-50 pointer-events-none">
-              <h4 className="font-medium text-white">Настройки бота</h4>
-              
-              <div className="space-y-2">
-                <Label>Токен бота</Label>
-                <Input
-                  value={telegramSettings.botToken}
-                  disabled
-                  placeholder="123456789:ABCdefGHIjklMNOpqrsTUVwxyz"
-                />
-              </div>
-
-              <div className="space-y-2">
-                <Label>Chat ID</Label>
-                <Input
-                  value={telegramSettings.chatId}
-                  disabled
-                  placeholder="-1001234567890"
-                />
-              </div>
-            </div>
-
-            <Button disabled className="opacity-50">
-              Сохранить настройки
-            </Button>
           </CardContent>
         </Card>
       </motion.div>
