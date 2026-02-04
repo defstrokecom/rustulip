@@ -106,21 +106,17 @@ export function ProductCard({ product }: { product: Product }) {
             {discount > 0 && <Badge className="bg-red-600 text-white">-{discount}%</Badge>}
           </div>
 
-          {/* Quick add button */}
-          <motion.div
-            initial={{ opacity: 0, y: 10 }}
-            whileHover={{ opacity: 1, y: 0 }}
-            className="absolute bottom-3 left-3 right-3 opacity-0 group-hover:opacity-100 transition-opacity"
-          >
+          {/* Quick add button - always visible */}
+          <div className="absolute bottom-3 left-3 right-3">
             <Button
               onClick={handleAddToCart}
-              className="w-full bg-[#C9A227] hover:bg-[#D4AF37] text-[#3D3229] font-semibold"
+              className="w-full bg-[#C9A227]/90 hover:bg-[#D4AF37] text-[#3D3229] font-semibold backdrop-blur-sm"
               size="sm"
             >
               <ShoppingCart className="w-4 h-4 mr-2" />
               В корзину
             </Button>
-          </motion.div>
+          </div>
         </div>
 
         {/* Info */}
