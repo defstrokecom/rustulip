@@ -9,8 +9,8 @@ import { Button } from "@/components/ui/button"
 import { Suspense } from "react"
 import { formatPrice } from "@/lib/utils"
 
-// Telegram username продавца (можно вынести в настройки)
-const TELEGRAM_USERNAME = "rustulip_sales"
+// Telegram username продавца
+const TELEGRAM_USERNAME = "shapo_sh"
 
 interface OrderItem {
   name: string
